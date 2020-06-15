@@ -1,0 +1,29 @@
+<!-- Google Code for eCommerce  -->
+<script>
+    /* <![CDATA[ */
+
+    ga('ecommerce:addTransaction', {
+        'id': '<?= /* @noEscape */ $block->getOrderId() ?>',                      // Transaction ID. Required
+        'affiliation': '<?= /* @noEscape */ $block->getOrderStoreName()  ?>',     // Affiliation or store name
+        'revenue': '<?= /* @noEscape */ $block->getGrandTotal() ?>',              // Grand Total
+        'shipping': '<?= /* @noEscape */ $block->getShippingAmount() ?>',         // Shipping
+        'tax': '<?= /* @noEscape */ $block->getTaxAmount() ?>'                    // Tax
+    });
+
+    <?php foreach ($block->getOrderItems() as $orderItem):?>
+    ga('ecommerce:addItem', {
+        'id': '<?= /* @noEscape */ $block->getOrderId() ?>',                              // Transaction ID. Required
+        'name': '<?= /* @noEscape */ $block->cleanUpValue($orderItem->getName()) ?>',     // Product name. Required
+        'sku': '<?= /* @noEscape */ $orderItem->getSku() ?>',                             // SKU/code
+        'price': '<?= /* @noEscape */ $orderItem->getPrice() ?>',                         // Unit price
+        'quantity': '<?= /* @noEscape */ $orderItem->getQtyOrdered() ?>'                  // Quantity
+    });
+    <?php endforeach; ?>
+
+    ga('ecommerce:send');
+    ga('second.ecommerce:send');
+
+
+    /* ]]> */
+</script>
+<!-- END Google Code for eCommerce  -->
